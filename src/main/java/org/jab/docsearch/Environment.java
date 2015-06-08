@@ -18,7 +18,7 @@ package org.jab.docsearch;
 
 import org.apache.log4j.Logger;
 import org.jab.docsearch.constants.OSType;
-
+//关于
 /**
  * This class contains all variables for a running session.<br>
  * The class is an Singlton.

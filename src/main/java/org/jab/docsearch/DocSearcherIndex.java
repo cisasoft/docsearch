@@ -18,6 +18,7 @@ package org.jab.docsearch;
 
 import java.util.Calendar;
 
+//不用修改本类中的代码
 /**
  * This is a wrapper class for a lucene index.
  *

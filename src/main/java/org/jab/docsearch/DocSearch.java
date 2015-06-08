@@ -162,6 +162,8 @@ public final class DocSearch extends JFrame implements ActionListener {
     private final String cdRomDefaultHome = FileUtils.addFolder(System.getProperty("user.dir"), "cdrom_indexes");
     private final String cdRomIdxList = FileUtils.addFolder(cdRomDefaultHome, "cdrom_indexes_list.htm");
     private final String cdRomIdxDir = FileUtils.addFolder(cdRomDefaultHome, "indexes");
+    
+    //创建临时目录java.io.temdir取决于使用的额什么操作系统
     // TODO move tempDir to FileEnvironment
     public String tempDir = System.getProperty("java.io.tmpdir");
     // private String cdRomTempIdxDir = FileUtils.addFolder(tempDir, "indexes");
@@ -180,6 +182,7 @@ public final class DocSearch extends JFrame implements ActionListener {
     // TODO move this list into the Utils class
     public List<DocTypeHandler> handlerList;
 
+    //搜索的变量定义即为软件右边下部的search in看search到哪里
     private final static String[] searchOpts = { "body_and_title", "title", "summary", "body", "keywords" };
     private final static String[] searchOptsLabels = {
         I18n.getString("search_in_body_and_tile"),
@@ -1678,12 +1681,10 @@ public final class DocSearch extends JFrame implements ActionListener {
                                     // is translated in other languages
                                     findText = "+" + sField + ":(" + searchText + ")";
                                 }
-
                                 // add author to query
                                 if (useAuthor.isSelected()) {
                                     findText += " +" + Index.FIELD_AUTHOR + ":(" + authorField.getText() + ")";
                                 }
-
                                 // add filetype to query
                                 if (useType.isSelected()) {
                                     findText += " +" + Index.FIELD_TYPE + ":(" + fileTypesToFind[fileType.getSelectedIndex()] + ")";
