@@ -89,7 +89,7 @@
 			<artifactId>javaee-api</artifactId>
 			<version>7.0</version>
 		</dependency>
-		<!-- mvn install:install-file -Dfile=\lib\fastmd5.jar  -DgroupId=com.fastmd5  -DartifactId=fastmd5  -Dversion=5  -Dpackaging=jar -->
+		<!-- mvn install:install-file -Dfile=.\fastmd5.jar  -DgroupId=com.fastmd5  -DartifactId=fastmd5  -Dversion=5  -Dpackaging=jar -->
 		<dependency>
 			<groupId>com.fastmd5</groupId>
 			<artifactId>fastmd5</artifactId>
