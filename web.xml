@@ -7,11 +7,11 @@
         <servlet-class>org.jab.docsearch.servlet.DsResults</servlet-class>
         <init-param>
             <param-name>USER_HOME</param-name>
-            <param-value>K:\jbrown\code\search_app\.docSearcher</param-value>
+            <param-value>D:\project\docsearch\.docSearcher</param-value>
         </init-param>
         <init-param>
             <param-name>LOG_DIR</param-name>
-            <param-value>K:\jbrown\code\search_app\.docSearcher\logs</param-value>
+            <param-value>D:\project\docsearch\.docSearcher\logs</param-value>
         </init-param>
     </servlet>
 
