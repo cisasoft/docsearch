@@ -53,7 +53,7 @@ import org.jab.docsearch.utils.Utils;
  *
  * @version $Id: DsResults.java 172 2012-09-14 15:24:32Z henschel $
  */
-public class DsResults extends HttpServlet {
+public class CallDsResults extends HttpServlet {
     /**
      * Log4J logger
      */
@@ -115,6 +115,7 @@ public class DsResults extends HttpServlet {
         // read some configs
         ServletConfig appConfig = getServletConfig();
         String userHome = appConfig.getInitParameter("USER_HOME");
+        System.out.println(userHome);
         logDir = appConfig.getInitParameter("LOG_DIR");
 
         // check user home

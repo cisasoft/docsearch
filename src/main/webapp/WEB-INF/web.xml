@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+
+    <servlet>
+        <servlet-name>DsResults</servlet-name>
+        <servlet-class>org.jab.docsearch.servlet.DsResults</servlet-class>
+        <init-param>
+            <param-name>USER_HOME</param-name>
+            <param-value>C:\Users\Niexl\Workspaces\MyEclipse for Spring 2014\docsearch\.docSearcher</param-value>
+        </init-param>
+        <init-param>
+            <param-name>LOG_DIR</param-name>
+            <param-value>C:\Users\Niexl\Workspaces\MyEclipse for Spring 2014\docsearch\.docSearcher\logs</param-value>
+        </init-param>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>DsResults</servlet-name>
+        <url-pattern>/search</url-pattern>
+    </servlet-mapping>
+</web-app>

@@ -19,6 +19,7 @@ package org.jab.docsearch.threads;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.jab.docsearch.servlet.CallDsResults;
 import org.jab.docsearch.servlet.DsResults;
 import org.jab.docsearch.utils.DateTimeUtils;
 
@@ -30,7 +31,7 @@ import org.jab.docsearch.utils.DateTimeUtils;
  */
 public final class DsReloader {
     private DsResults ds;
-
+    private CallDsResults cds;
 
     /**
      * Constructor
@@ -40,6 +41,12 @@ public final class DsReloader {
      */
     public DsReloader(int minutes, DsResults ds) {
         this.ds = ds;
+        Timer timer = new Timer();
+        timer.schedule(new ReloadTask(), minutes * 60000, minutes * 60000);
+    }
+    
+    public DsReloader(int minutes, CallDsResults cds) {
+        this.cds = cds;
         Timer timer = new Timer();
         timer.schedule(new ReloadTask(), minutes * 60000, minutes * 60000);
     }
@@ -59,4 +66,5 @@ public final class DsReloader {
             // timer.cancel(); //Terminate the timer thread
         }
     }
+
 }

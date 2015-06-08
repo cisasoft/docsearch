@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Search Results</title>
+</head>
+<body>
+	<b>
+		<h2 align="left">
+			hi yourself <font color="blue">&amp;#29579;</font>
+		</h2>
+	</b>
+	<p></p>
+	<table border="0">
+		<tbody>
+			<tr>
+				<td valign="top"><form name="DocSearcherForm" action="search"
+						method="GET">
+						New Search : <input type="text" name="query" value="&amp;#29579;">
+						<input type="Submit" value="Go"><br># Results per
+						page: <select name="maxresults"><option value="10">10</option>
+							<option value="20">20</option>
+							<option value="30">30</option>
+							<option value="40">40</option></select><input type="hidden" name="startat"
+							value="0">
+					</form></td>
+				<td>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+					<form name="help"></form>
+				</td>
+				<td valign="top">&nbsp; &nbsp; <input type="button"
+					value="Tips for Searching" onclick="showHelp()">
+				<script language="JavaScript">
+					function showHelp() {
+						var showVideo = true;
+						if (showVideo) {
+							var OpenWindow = window
+									.open("", "newwin",
+											"menubar=no, resizable=yes, scrollbars=yes, width=600, height=550");
+							OpenWindow.document.write("<HTML>");
+							OpenWindow.document
+									.write("<HEAD><TITLE>Search Help</TITLE></HEAD><body topmargin=0 leftmargin=0>");
+							OpenWindow.document
+									.write(" <table width=580 border=0 bgcolor=AFDCDA><tr> <td valign=top><h3 align=left>Basic Searches</h3><p align=left><small>There are 4 types of Basic searches you can perform: <b>Keyword</b>, <b>Phrase</b>, <b>Boolean</b>, and <b>Wild Card</b>.The example queries below describe each of these:</p><table border=1 align=center width=85% bgcolor=ffefda><tr>	<th><small>Example</small></th>	<th><small>Results</small></th></tr><tr>	<td bgcolor=ffeffa><small><font color=blue>summer vacation</font></small></td>	<td bgcolor=ffeffa><small>Finds <b>keywords</b> &quot;summer&quot; and &quot;vacation&quot;</small></td></tr><tr>	<td bgcolor=fdffda><small><font color=blue>&quot;summer vacation&quot;</font></small></td>	<td bgcolor=fdffda><small>Finds the <b>phrase</b> &quot;summer vacation&quot;</small></td></tr><tr>	<td bgcolor=ffeffa><font color=blue><small>&quot;john smith&quot; -&quot;john brown&quot;</font></small></td>	<td bgcolor=ffeffa><small>Finds &quot;john smith&quot; but <b>excludes</b> &quot;john brown&quot;</small></td></tr><tr>	<td bgcolor=fdffda><small><font color=blue>virtu*</font></small></td>	<td bgcolor=fdffda><small>Finds virtuous, virtue, virtuosity, etc... 	<br><br>This is a <b>wild card search</b>.</small></td></tr></table></small><!-- end of inner table --></td><td valign=top bgcolor=FADBCD><h3 align=left>Advanced Searches</h3><small><p align=left>	Advanced Searches are formatted thus: <br><font color=blue><b>+(+field:(search text here) AND +another_field:(more search text)) OR +another_field:(even more search text)</b></font></br><br>The fields you can search in include:</p><ul> <li>title <li>author <li>summary <li>body <li>path (file name) <li>URL  <li>type (the type of document, AKA the document extension... i.e. doc for MS Word, htm for web pages, etc...)</ul><p align=left>	Here's example of a complex search:<br><b><font color=red>+(+(+title:(&quot;Homeland Security&quot;) AND +author:(John)) OR +summary:(DHS -TSA)) AND +type:(pdf)</font></b></p><p align=left> The above example says, find documents where title includes the phrase &quot;Homeland Security&quot;,  the author has text John, or the summary has text DHS - but exclude documents where summary has  text TSA in it - and retrieve only PDF documents.</p></small></td></tr></table> ");
+							OpenWindow.document
+									.write("  <p align=center><form><input type=button value=Close onClick=self.close()></form></p>    </body></html>");
+						}
+
+					}
+				</script>
+					<noscript>JavaScript not enabled</noscript>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+</body>
+</html>
