@@ -1,0 +1,214 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+    "-//Puppy Crawl//DTD Check Configuration 1.1//EN"
+    "http://www.puppycrawl.com/dtds/configuration_1_1.dtd">
+
+<!-- for all possible Checks try http://checkstyle.sourceforge.net/5.x/checks.html -->
+<module name="Checker">
+    <!-- Duplicate Code -->
+    <!-- <module name="StrictDuplicateCode" /> -->
+
+    <!-- New line check -->
+    <module name="NewlineAtEndOfFile" >
+        <property name="severity" value="info" />
+    </module>
+
+    <!--
+        Size Violations
+
+        http://checkstyle.sourceforge.net/config_sizes.html
+    -->
+    <module name="FileLength">
+        <property name="severity" value="error" />
+        <!-- Maximale Zeilenanzahl, egal was! -->
+        <property name="max" value="1000" />
+    </module>
+
+
+    <!--
+        TreeWalker
+    -->
+    <module name="TreeWalker">
+        <!-- severity-levels : error, warning, info, ignore -->
+        <!-- default Gewichtung: warning -->
+        <property name="severity" value="warning" />
+
+
+        <!--
+            Imports
+
+            http://checkstyle.sourceforge.net/config_imports.html
+        -->
+        <module name="AvoidStarImport" />
+        <module name="IllegalImport" /><!-- defaults to sun.* packages -->
+        <module name="RedundantImport" />
+        <module name="UnusedImports" />
+
+
+        <!--
+            Size Violations
+
+            http://checkstyle.sourceforge.net/config_sizes.html
+        -->
+        <module name="LineLength">
+            <property name="severity" value="info" />
+            <property name="max" value="120" />
+        </module>
+        <module name="MethodLength">
+            <!-- maximale Anzahl der Zeilen einer Methode -->
+            <property name="max" value="50" />
+            <!-- Leere oder kommentierte Zeilen beachten? Nein! -->
+            <property name="countEmpty" value="false" />
+        </module>
+        <module name="ParameterNumber" />
+
+
+        <!--
+            Javadoc Comments
+
+            http://checkstyle.sourceforge.net/config_javadoc.html
+        -->
+        <module name="JavadocType">
+            <property name="severity" value="warning" />
+            <!-- <property name="tokens" value="CLASS_DEF" />-->
+        </module>
+
+
+        <!--
+            Naming Conventions
+
+            http://checkstyle.sourceforge.net/config_naming.html
+         -->
+        <!-- Konstantennamen plus die Variable log. -->
+        <module name="ConstantName">
+            <property name="format" value="^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$|^log" />
+        </module>
+        <module name="LocalFinalVariableName" />
+        <module name="LocalVariableName" />
+        <module name="MemberName" />
+        <module name="MethodName" />
+        <!--  Packagenamen sollten klein geschrieben werden, -->
+        <module name="PackageName">
+            <property name="format" value="^[a-z]+(\.[a-z_][a-z0-9_]*)*$" />
+        </module>
+        <module name="ParameterName" />
+        <module name="StaticVariableName" />
+        <module name="TypeName" />
+
+
+        <!--
+            Metrics
+
+            http://checkstyle.sourceforge.net/config_metrics.html
+         -->
+        <!-- Cyclomatische Komplexitaet. 15 waere gut, 25 aber die absolute Obergrenze. -->
+        <module name="CyclomaticComplexity">
+            <property name="severity" value="error" />
+            <property name="max" value="25" />
+        </module>
+
+
+        <!--
+            Modifier
+
+            http://checkstyle.sourceforge.net/config_modifier.html
+         -->
+        <module name="RedundantModifier">
+            <property name="severity" value="info" />
+        </module>
+
+
+        <!--
+            Block check
+
+            http://checkstyle.sourceforge.net/config_blocks.html
+         -->
+        <module name="NeedBraces">
+            <property name="severity" value="info" />
+        </module>
+
+
+        <!--
+            Coding
+
+            http://checkstyle.sourceforge.net/config_coding.html
+         -->
+        <module name="EqualsHashCode" />
+        <module name="HiddenField">
+            <property name="ignoreConstructorParameter " value="true" />
+            <property name="ignoreSetter" value="true" />
+            <property name="ignoreAbstractMethods " value="true" />
+        </module>
+        <module name="IllegalInstantiation" >
+            <property name="classes" value="java.lang.Boolean"/>
+        </module>
+        <module name="RedundantThrows">
+            <property name="severity" value="info" />
+        </module>
+        <module name="SimplifyBooleanExpression"/>
+        <module name="SimplifyBooleanReturn" />
+        <module name="StringLiteralEquality">
+            <property name="severity" value="info" />
+        </module>
+        <module name="NestedIfDepth">
+            <property name="max" value="2" />
+        </module>
+        <module name="NestedTryDepth">
+            <property name="max" value="2" />
+        </module>
+        <module name="SuperClone"/>
+        <module name="SuperFinalize"/>
+        <!-- Ist vielleicht zu ristriktiv! -->
+        <module name="IllegalCatch">
+            <property name="severity" value="info" />
+        </module>
+        <!-- Ist vielleicht zu ristriktiv! -->
+        <module name="IllegalThrows">
+            <property name="severity" value="info" />
+        </module>
+        <module name="PackageDeclaration" />
+        <module name="ReturnCount">
+            <property name="max" value="2" />
+        </module>
+        <!-- Ist vielleicht zu ristriktiv! -->
+        <module name="MultipleVariableDeclarations">
+            <property name="severity" value="info" />
+        </module>
+
+
+        <!--
+            Class Design
+
+            http://checkstyle.sourceforge.net/config_design.html
+        -->
+        <!-- Die Checks sind entweder recht heftig oder nicht sinnvoll. -->
+
+        <!--
+            Whitespace
+
+            http://checkstyle.sourceforge.net/config_whitespace.html
+        -->
+        <!-- Die Checks sind entweder recht heftig oder nicht sinnvoll.  -->
+
+
+        <!--
+            Headers
+
+            http://checkstyle.sourceforge.net/config_header.html
+        -->
+        <!-- Die Checks sind nicht sinnvoll fuer uns. -->
+
+
+        <!--
+            Miscellaneous
+
+            http://checkstyle.sourceforge.net/config_misc.html
+        -->
+        <!--  TODO's anzeigen -->
+        <module name="TodoComment">
+            <property name="format" value="TODO" />
+        </module>
+
+    </module>
+
+</module>

@@ -1,0 +1,441 @@
+<!-- Setting up the Getting Started example to prepare to build and deploy -->
+<project name="docsearcher" default="webapp" basedir=".">
+
+    <!-- configure the propterties -->
+    <property environment="env" />
+    <property name="dir.base" value="." />
+    <property name="dir.build" value="${dir.base}/build" />
+    <property name="dir.bin" value="${dir.build}/bin" />
+    <property name="dir.instrument" value="${dir.build}/instrument" />
+    <property name="dir.javadoc" value="${dir.build}/javadoc" />
+    <property name="dir.src" value="${dir.base}/src" />
+    <property name="dir.test" value="${dir.base}/test" />
+    <property name="dir.lib" value="${dir.base}/lib" />
+    <property name="dir.dist" value="${dir.build}/dist" />
+    <property name="dir.distsrc" value="${dir.build}/distsrc" />
+    <property name="dir.icons" value="${dir.base}/icons" />
+    <property name="dir.webapp" value="${dir.build}/webapp" />
+    <property name="dir.res" value="${dir.base}/res" />
+    <property name="dir.checkstyle" value="${dir.build}/checkstyle" />
+    <property name="dir.findbugs" value="${dir.build}/findbugs" />
+    <property name="dir.cobertura" value="${dir.build}/cobertura" />
+    <property name="dir.junit" value="${dir.build}/junit" />
+
+    <!-- other project properties -->
+    <property name="version" value="3.93.0" />
+
+    <!-- classpath -->
+    <path id="classpath">
+        <fileset dir="${dir.lib}">
+            <include name="*.jar" />
+        </fileset>
+    </path>
+
+    <!-- classpath run -->
+    <path id="classpath-run">
+        <pathelement location="${dir.bin}" />
+        <path refid="classpath" />
+    </path>
+
+    <!-- classpath checkstyle -->
+    <path id="classpath-checkstyle">
+        <fileset dir="${env.CHECKSTYLE_HOME}">
+            <include name="*.jar" />
+        </fileset>
+    </path>
+
+    <!-- classpath findbugs -->
+    <path id="classpath-findbugs">
+        <fileset dir="${env.FINDBUGS_HOME}/lib">
+            <include name="*.jar" />
+        </fileset>
+    </path>
+
+    <!-- classpath cobertury -->
+    <path id="classpath-cobertura">
+        <fileset dir="${env.COBERTURA_HOME}">
+            <include name="*.jar" />
+        </fileset>
+        <fileset dir="${env.COBERTURA_HOME}/lib">
+            <include name="*.jar" />
+        </fileset>
+    </path>
+
+    <!-- init -->
+    <target name="init">
+        <tstamp />
+
+        <mkdir dir="${dir.build}" />
+    </target>
+
+    <!-- remove all created files -->
+    <target name="clean">
+        <delete dir="${dir.build}" />
+    </target>
+
+    <!-- compile -->
+    <target name="compile" description="Compile Java files" depends="init">
+        <!-- copy some files -->
+        <copy file="docSearch.properties" todir="${dir.bin}" />
+        <copy file="${dir.src}/org/jab/docsearch/log4j.xml" todir="${dir.bin}/org/jab/docsearch" />
+        <copy todir="${dir.bin}/org/jab/docsearch">
+            <fileset dir="${dir.src}/org/jab/docsearch">
+                <include name="*.properties" />
+            </fileset>
+        </copy>
+        <!-- copy images and icons -->
+        <copy file="${dir.base}/splash.gif" todir="${dir.bin}" />
+        <copy todir="${dir.bin}/icons">
+            <fileset dir="${dir.icons}" />
+        </copy>
+        <copy todir="${dir.bin}">
+            <fileset dir="${dir.base}" includes="*.htm" />
+        </copy>
+
+        <!-- compile -->
+        <javac
+              srcdir="${dir.src}"
+              destdir="${dir.bin}"
+              deprecation="on"
+              debug="on"
+              includeAntRuntime="off"
+              source="1.6"
+              target="1.6">
+            <include name="**/*.java" />
+            <classpath refid="classpath" />
+        </javac>
+    </target>
+
+    <!-- compile test -->
+    <target name="compile-test" description="Compile Java test files" depends="compile, cobertura-init">
+        <!-- copy some files -->
+        <copy todir="${dir.bin}">
+            <fileset dir="${dir.test}">
+                <include name="*.doc*" />
+                <include name="*.xls*" />
+                <include name="*.odt" />
+                <include name="*.pdf" />
+            </fileset>
+        </copy>
+
+        <!-- compile -->
+        <javac
+              srcdir="${dir.test}"
+              destdir="${dir.bin}"
+              deprecation="on"
+              debug="on"
+              includeAntRuntime="off"
+              source="1.6"
+              target="1.6">
+            <include name="**/*.java" />
+            <classpath refid="classpath" />
+        </javac>
+    </target>
+
+    <!-- run DocSearcher -->
+    <target name="run" description="Runs DocSearcher with logfile" depends="compile">
+        <java
+             classname="org.jab.docsearch.DocSearch"
+             fork="true">
+            <classpath refid="classpath-run" />
+            <arg value="enable_logfile" />
+        </java>
+    </target>
+
+    <!-- generate JAVA Doc -->
+    <target name="javadoc" description="Generates DocSearcher Javadoc" >
+        <mkdir dir="${dir.javadoc}" />
+
+        <javadoc
+            destdir="${dir.javadoc}"
+            author="true"
+            version="true"
+            use="true"
+            windowtitle="DocSearcher API"
+            verbose="false">
+            <classpath refid="classpath" />
+            <fileset dir="${dir.src}" defaultexcludes="yes">
+                <include name="**/*.java" />
+            </fileset>
+        </javadoc>
+    </target>
+
+    <!-- build servlet webapp directory -->
+    <target name="webapp" depends="distbin">
+        <mkdir dir="${dir.webapp}" />
+        <mkdir dir="${dir.webapp}/WEB-INF" />
+        <mkdir dir="${dir.webapp}/WEB-INF/lib" />
+
+        <!-- web-inf -->
+        <copy file="${dir.base}/web.xml" todir="${dir.webapp}/WEB-INF" />
+
+        <!-- libraries -->
+        <copy todir="${dir.webapp}/WEB-INF/lib">
+            <fileset dir="${dir.lib}">
+                <include name="*.jar" />
+                <exclude name="junit-*.jar" />
+                <exclude name="servlet-api.jar" />
+            </fileset>
+            <fileset dir="${dir.dist}">
+                <include name="DocSearch.jar" />
+            </fileset>
+        </copy>
+
+        <!-- libraries -->
+        <copy todir="${dir.webapp}/images">
+            <fileset dir="${dir.icons}" />
+        </copy>
+
+        <!-- war -->
+        <jar jarfile="DocSearch.war" basedir="${dir.webapp}" />
+    </target>
+
+    <!-- creates binary distribution directory -->
+    <target name="distbin" description="Builds binary distribution package" depends="compile">
+        <mkdir dir="${dir.dist}" />
+
+        <!-- copy icons -->
+        <copy todir="${dir.dist}/icons">
+            <fileset dir="${dir.icons}" />
+        </copy>
+
+        <!-- copy extra files -->
+        <copy file="help_page.htm" todir="${dir.dist}" />
+        <copy file="help_page_ws.htm" todir="${dir.dist}" />
+        <copy file="start_page.htm" todir="${dir.dist}" />
+        <copy file="start_page_ws.htm" todir="${dir.dist}" />
+        <copy file="CHANGELOG.txt" todir="${dir.dist}" />
+        <copy file="GPL.txt" todir="${dir.dist}" />
+        <copy file="README.txt" todir="${dir.dist}" />
+        <copy file="TODO.txt" todir="${dir.dist}" />
+
+        <!-- copy libraries -->
+        <copy todir="${dir.dist}/lib">
+            <fileset dir="${dir.lib}">
+                <include name="*.jar" />
+                <exclude name="junit-*.jar" />
+            </fileset>
+        </copy>
+
+        <!-- create jar -->
+        <jar jarfile="${dir.dist}/DocSearch.jar" basedir="${dir.bin}" manifest="${dir.base}/manifest.txt" />
+    </target>
+
+    <!-- creates source distribution directory -->
+    <target name="distsrc" description="Builds source distribution package">
+        <mkdir dir="${dir.distsrc}" />
+
+        <!-- copy extra files -->
+        <copy file="splash.gif" todir="${dir.distsrc}" />
+        <copy file="help_page.htm" todir="${dir.distsrc}" />
+        <copy file="start_page.htm" todir="${dir.distsrc}" />
+        <copy file="start_page_ws.htm" todir="${dir.distsrc}" />
+        <copy file="docSearch.properties" todir="${dir.distsrc}" />
+        <copy file="CHANGELOG.txt" todir="${dir.distsrc}" />
+        <copy file="GPL.txt" todir="${dir.distsrc}" />
+        <copy file="manifest.txt" todir="${dir.distsrc}" />
+        <copy file="README.txt" todir="${dir.distsrc}" />
+        <copy file="TODO.txt" todir="${dir.distsrc}" />
+        <copy file="build.xml" todir="${dir.distsrc}" />
+        <copy file="web.xml" todir="${dir.distsrc}" />
+
+        <!-- copy icons -->
+        <copy todir="${dir.distsrc}/icons">
+            <fileset dir="${dir.icons}" />
+        </copy>
+
+        <!-- copy libraries -->
+        <copy todir="${dir.distsrc}/lib">
+            <fileset dir="${dir.lib}" />
+        </copy>
+
+        <!-- copy resources -->
+        <copy todir="${dir.distsrc}/res">
+            <fileset dir="${dir.res}" />
+        </copy>
+
+        <!-- copy source -->
+        <copy todir="${dir.distsrc}/src">
+            <fileset dir="${dir.src}" />
+        </copy>
+
+        <!-- copy test -->
+        <copy todir="${dir.distsrc}/test">
+            <fileset dir="${dir.test}" />
+        </copy>
+    </target>
+
+    <!-- build distribution package -->
+    <target name="dist" description="Builds distribution packages" depends="clean, distsrc, webapp">
+        <!-- create binary zip -->
+        <zip destfile="DocSearcher-${version}.zip"  basedir="${dir.dist}" />    
+
+        <!-- create source zip -->
+        <zip destfile="DocSearcher-src-${version}.zip"  basedir="${dir.distsrc}" />    
+    </target>
+
+    <!-- checkstyle -->
+    <target name="checkstyle" depends="init">
+        <!-- define rask -->
+        <taskdef resource="checkstyletask.properties" classpathref="classpath-checkstyle" />
+
+        <!-- create output directory -->
+        <mkdir dir="${dir.checkstyle}" />
+
+        <!-- checkstyle -->
+        <checkstyle
+            config="${dir.res}/checkstyle/checkstyle-test.xml"
+            failureProperty="checkstyle.failure"
+            failOnViolation="false">
+
+            <fileset dir="${dir.src}" includes="**/*.java" excludes="**/*Test.java" />
+            <formatter type="xml" tofile="${dir.checkstyle}/checkstyle-report.xml" />
+        </checkstyle>
+    </target>
+
+    <!-- checkstyle HTML report-->
+    <target name="checkstyle-report" depends="checkstyle">
+        <!-- HTML report -->
+        <xslt
+             classpathref="classpath"
+             in="${dir.checkstyle}/checkstyle-report.xml"
+             out="${dir.checkstyle}/checkstyle-report.html"
+             style="${dir.res}/checkstyle/checkstyle-frames-errors.xsl">
+            <param name="output.dir" expression="${dir.checkstyle}" />
+        </xslt>
+    </target>
+
+    <!-- findbugs -->
+    <target name="findbugs" depends="init">
+        <!-- define task -->
+        <taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" classpathref="classpath-findbugs" />
+
+        <!-- create output directory -->
+        <mkdir dir="${dir.findbugs}" />
+
+        <!-- findbugs -->
+        <findbugs
+            home="${env.FINDBUGS_HOME}"
+            output="xml"
+            outputFile="${dir.findbugs}/findbugs-report.xml"
+            jvmargs="-Xmx256M" >
+            <auxClasspath refid="classpath" />
+            <sourcePath path="${dir.src}" />
+            <class location="${dir.bin}" />
+        </findbugs>
+    </target>
+
+    <!-- findbugs HTML report-->
+    <target name="findbugs-report" depends="init">
+        <!-- define task -->
+        <taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" classpathref="classpath-findbugs" />
+
+        <!-- create output directory -->
+        <mkdir dir="${dir.findbugs}" />
+
+        <!-- findbugs -->
+        <findbugs
+                 home="${env.FINDBUGS_HOME}"
+                 output="html"
+                 outputFile="${dir.findbugs}/index.html"
+                 jvmargs="-Xmx256M" >
+            <auxClasspath refid="classpath" />
+            <sourcePath path="${dir.src}" />
+            <class location="${dir.bin}" />
+        </findbugs>
+    </target>
+
+    <!-- junit -->
+    <target name="junit" depends="compile-test">
+        <!-- create output directory -->
+        <mkdir dir="${dir.junit}" />
+
+        <!-- junit -->
+        <junit printsummary="yes" haltonerror="no" haltonfailure="false" showoutput="yes" fork="true" forkmode="once">
+            <formatter type="plain" usefile="false" />
+            <formatter type="xml" />
+            <batchtest todir="${dir.junit}">
+                <fileset dir="${dir.test}">
+                    <include name="**/*Test.java" />
+                </fileset>
+            </batchtest>
+            <classpath>
+                <path location="${dir.instrument}" />
+                <path refid="classpath-run" />
+                <path refid="classpath-cobertura" />
+            </classpath>
+            <sysproperty key="net.sourceforge.cobertura.datafile" file="${dir.build}/cobertura.ser" />
+        </junit>
+    </target>
+
+    <!-- cobertura init -->
+    <target name="cobertura-init">
+        <!-- define task -->
+        <taskdef resource="tasks.properties" classpathref="classpath-cobertura" />
+
+        <!-- create output directory -->
+        <mkdir dir="${dir.instrument}" />
+
+        <cobertura-instrument todir="${dir.instrument}" datafile="${dir.build}/cobertura.ser">
+            <fileset dir="${dir.bin}">
+                <include name="**/*.class" />
+                <exclude name="**/*Test.class" />
+            </fileset>
+        </cobertura-instrument>
+    </target>
+
+    <!-- cobertura XML report-->
+    <target name="cobertura-xml">
+        <!-- define task -->
+        <taskdef resource="tasks.properties" classpathref="classpath-cobertura" />
+
+        <!-- create output directory -->
+        <mkdir dir="${dir.cobertura}" />
+
+        <!-- cobertura report as xml-->
+        <cobertura-report
+                format="xml"
+                datafile="${dir.build}/cobertura.ser"
+                srcdir="${dir.src}"
+                destdir="${dir.cobertura}" />
+    </target>
+
+    <!-- cobertura HTML report -->
+    <target name="cobertura-report" depends="cobertura-xml">
+        <!-- define task -->
+        <taskdef resource="tasks.properties" classpathref="classpath-cobertura" />
+
+        <!-- create output directory -->
+        <mkdir dir="${dir.cobertura}" />
+
+        <!-- cobertura report as html-->
+        <cobertura-report
+                         format="html"
+                         datafile="${dir.build}/cobertura.ser"
+                         srcdir="${dir.src}"
+                         destdir="${dir.cobertura}" />
+    </target>
+
+    <!-- generate key -->
+    <target name="generatekey">
+        <echo message="generate key" />
+
+        <genkey alias="docsearcher" storepass="search" >
+            <dname>
+                <param name="OU" value="DocSearcher Development" />
+                <param name="O"  value="DocSearcher" />
+                <param name="L"  value="Brandenburg" />
+                <param name="C"  value="de" />
+            </dname>
+        </genkey>
+    </target>
+
+    <!-- sign all jars -->
+    <target name="signjar" depends="distbin">
+        <signjar alias="docsearcher" storepass="search">
+            <path>
+                <fileset dir="${dir.dist}" includes="**/*.jar" />
+            </path>
+        </signjar>
+    </target>
+</project>

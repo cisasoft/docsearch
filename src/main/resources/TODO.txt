@@ -1,0 +1,22 @@
+TODO for next versions
+----------------------
+-rework mnemonics!
+-add ods filetype
+-update lucene
+-extra resources for translations and configs
+-better reading of document meta data
+-extend spider with option - spider only this url
+
+!! Bug fixing:
+Prio high:
+-remove temp files from TEMPDIR
+-create better temp file name (random)
+
+Prio low:
+-replace email_from_address in resource with user definied address
+-try to fix spider index with domain without slash after tld (http://docsearcher.henschelsoft.de)
+
+
+
+Questions?
+Use the project forum http://sourceforge.net/forum/?group_id=76130

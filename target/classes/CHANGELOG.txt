@@ -1,0 +1,108 @@
+version 3.93.0
+--------------
+-move DocSearcher to Java 6
+-fix problem with ignored files if you searched with filetype choise
+-fix upper case file type problem since version 3.92.0
+-fix some problems in website spider
+-preparing to Java Webstart
+-images and icons moved to DocSearch jar
+
+
+version 3.92.0
+--------------
+-refactored PDF converter
+-removed old multivalent PDF extractor
+-updated PDF Box to 0.7.3
+-changed the Lucene date to new format (DateTools)
+-refactored internal filetype handling
+
+
+version 3.91.0
+--------------
+-no changes
+
+
+version 3.91.0 rc1
+------------------
+-refactor DocType handling
+-refactor index creating and don't store the body content
+-search in body and title together is possible again
+-replace old setting file "docSearch_prefs.txt" with "docsearcher.properties"
+-remove tinylaf layout
+-first try to solve some problem with servlet extension
+-remove check if last searchtext was the same, because the options can be changed
+-remove option for search in title and body, because it does not run
+-fix escaping problem in meta data report
+-fix problem with filenames contains whitespaces
+-update POI to 3.2 final
+-fix some problems in Word and Excel converter
+-add commons-io
+
+
+version 3.90.0
+--------------
+-fix some problems with search field
+-fix problem with home button
+-add first junit test
+-add findbugs
+-add checkstyle
+-ant - move some directories to build
+-remove back and forward buttons, because they are not useful in this context
+-update Lucene to 2.0.0
+-add some JAVA 5 features
+-add new resources
+-fix problem with command line
+
+
+version 3.89
+------------
+-little fix in meta data report for OpenDocument
+-fix reindex problem with to many filetype variables
+
+
+version 3.89 pre3
+-----------------
+-fix some problems during OpenDocument indexing
+-update Jakarta POI library to actual alpha version 2006-05-15
+-rewrite Word converter
+-rewrite Excel converter
+-remove some unused temporary files
+
+
+version 3.89 pre2
+-----------------
+-add important debug for cd creating mechanism
+-update log4j to 1.2.13
+
+
+version 3.89 pre1
+-----------------
+-add filetype constants
+-add OpenDocument text format
+-fix some different title formats during indexing
+ (filename with path, first content of document)
+-document title normaly from document or filename
+-fix double k(k K bytes) in summary line
+-improve filetype handling
+-change filetype icons
+
+
+version 3.88
+------------
+-no changes since 3.88 pre1
+
+
+version 3.88 pre1
+-----------------
+-fix date convert problem
+-many code cleanups
+-add license (GPL)
+-source code formated (java code convention)
+-add Log4J
+-little fix in website spider
+-add help page
+-add Environment and FileEnvironment class
+
+
+start version 3.87
+------------------
