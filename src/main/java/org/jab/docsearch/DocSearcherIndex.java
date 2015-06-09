@@ -305,4 +305,17 @@ public class DocSearcherIndex {
     public boolean getIsSpider() {
         return isSpider;
     }
+
+
+	@Override
+	public String toString() {
+		return "DocSearcherIndex [shouldBeSearched=" + shouldBeSearched
+				+ ", name=" + name + ", path=" + path + ", indexPath="
+				+ indexPath + ", depth=" + depth + ", lastIndexed="
+				+ lastIndexed + ", isWeb=" + isWeb + ", match=" + match
+				+ ", replace=" + replace + ", archiveDir=" + archiveDir
+				+ ", isSpider=" + isSpider + ", indexPolicy=" + indexPolicy
+				+ "]";
+	}
+    
 }

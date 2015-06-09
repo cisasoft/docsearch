@@ -16,7 +16,10 @@
  */
 package org.jab.docsearch.threads;
 
+import java.util.List;
+
 import org.jab.docsearch.DocSearch;
+import org.jab.docsearch.InitAdapterMeta;
 
 /**
  * Class ThreadedSearch
@@ -26,6 +29,7 @@ import org.jab.docsearch.DocSearch;
 public final class ThreadedSearch implements Runnable {
     private final String actionString;
     private final DocSearch ds;
+    private List<InitAdapterMeta> iaml;
 
 
     /**
@@ -38,6 +42,12 @@ public final class ThreadedSearch implements Runnable {
         this.actionString = actionString;
         this.ds = ds;
     }
+    
+    public ThreadedSearch(DocSearch ds, String actionString,List<InitAdapterMeta> iaml) {
+        this.actionString = actionString;
+        this.ds = ds;
+        this.iaml = iaml;
+    }
 
 
     /**
@@ -45,6 +55,15 @@ public final class ThreadedSearch implements Runnable {
      */
     @Override
 	public void run() {
-        ds.doSearch(actionString);
+    	this.iaml = ds.doSearch(actionString,iaml);
+    	System.out.println("------------------------------------------------------");
+		System.out.println("------------------------------------------------------");
+		System.out.println("in run--------->"+iaml.size());
+		for(int i=0;i<iaml.size();i++){
+			System.out.println(iaml.get(i).toString());
+			iaml.get(i).toString();
+		}
+		System.out.println("------------------------------------------------------");
+		System.out.println("------------------------------------------------------");
     }
 }

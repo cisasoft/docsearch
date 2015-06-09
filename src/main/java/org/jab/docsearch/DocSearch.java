@@ -169,7 +169,7 @@ public final class DocSearch extends JFrame implements ActionListener {
     // private String cdRomTempIdxDir = FileUtils.addFolder(tempDir, "indexes");
     public String lafChosen = "";
     //
-    private final boolean isCDSearchTool = isThisOnACd(cdRomDefaultHome);
+    private final boolean isCDSearchTool = false;//isThisOnACd(cdRomDefaultHome);
     private boolean currentlySearching = false;
     //
     public String gateway = "";
@@ -345,6 +345,7 @@ public final class DocSearch extends JFrame implements ActionListener {
      */
     public static void main(String[] args) {
 
+    	System.out.println("main the param is:---->");
         // init logging
         Logging logging = new Logging();
         logging.init();
@@ -432,8 +433,10 @@ public final class DocSearch extends JFrame implements ActionListener {
      * Constructor
      */
     public DocSearch() {
+    	
         super(I18n.getString("ds.windowtitle"));
 
+        System.out.println("DocSearch the param is:---->");
         // get logger
         logger = Logger.getLogger(getClass().getName());
 
@@ -449,7 +452,7 @@ public final class DocSearch extends JFrame implements ActionListener {
         }
 
         //
-        checkCDROMDir();
+        //checkCDROMDir();
         defaultHndlr = getBrowserFile();
         loadSettings();
 
@@ -772,6 +775,7 @@ public final class DocSearch extends JFrame implements ActionListener {
      */
     private JMenuBar createMenuBar() {
 
+    	System.out.println("createMenuBar the param is:---->");
     	// menu bar
         JMenuBar menuBar = new JMenuBar();
 
@@ -960,6 +964,7 @@ public final class DocSearch extends JFrame implements ActionListener {
 
     private JToolBar createToolBar() {
 
+    	System.out.println("createToolBar the param is:---->");
     	// tool bar
     	JToolBar toolBar = new JToolBar();
 
@@ -1065,6 +1070,7 @@ public final class DocSearch extends JFrame implements ActionListener {
      * Method init
      */
     private void init() {
+    	System.out.println("init the param is:---->");
         //
         // GUI BUILDING
         // close window item
@@ -1128,6 +1134,7 @@ public final class DocSearch extends JFrame implements ActionListener {
      * for updating - starts that process
      */
     private void checkUpdates() {
+    	System.out.println("checkUpdates the param is:---->");
         int numDis = indexes.size();
         if (numDis > 0) {
             setStatus(I18n.getString("please_wait...") + " " + I18n.getString("update_index"));
@@ -1194,6 +1201,7 @@ public final class DocSearch extends JFrame implements ActionListener {
     public void handleEventCommand(String s) {
         logger.debug("handleEventCommand('" + s + "') entered");
 
+        System.out.println("handleEventCommand the param is:---->"+s);
         try {
             // we run validation in a thread so as not to interfere
             // with repaints of GUI
@@ -1201,7 +1209,7 @@ public final class DocSearch extends JFrame implements ActionListener {
                 doExit();
             }
             else if (s.equals("ac_makecd")) {
-                doSearchableCdWiz();
+                //doSearchableCdWiz();
             }
             else if (s.equals("ac_settings")) {
                 doHandlers();
@@ -1339,6 +1347,7 @@ public final class DocSearch extends JFrame implements ActionListener {
      * @return true if the lucene index folder for the index exists
      */
     private boolean hasIndex() {
+    	System.out.println("hasIndex the param is:---->");
         boolean returnBool = true;
         File indexFolder = new File(fEnv.getIndexDirectory());
         if (!indexFolder.exists()) {
@@ -1356,6 +1365,7 @@ public final class DocSearch extends JFrame implements ActionListener {
      * etc...
      */
     public void setStatus(String toSet) {
+    	System.out.println("setStatus the param is:---->"+toSet);
         if (!isLoading && env.isGUIMode()) {
             dirLabel.setText(toSet);
         }
@@ -1372,6 +1382,7 @@ public final class DocSearch extends JFrame implements ActionListener {
      * @return 0 for yes and 1 for no
      */
     public int getConfirmation(String details, String title) {
+    	System.out.println("getConfirmation the param is:---->"+title+"--->"+details);
         int n = JOptionPane.showConfirmDialog(this, title, details, JOptionPane.YES_NO_OPTION);
         return n;
     }
@@ -1384,6 +1395,7 @@ public final class DocSearch extends JFrame implements ActionListener {
      */
     @SuppressWarnings("unused")
     private boolean getConfirmationMessage(String title, String details) {
+    	System.out.println("getConfirmationMessage the param is:---->"+title+"--->"+details);
         MessageConfirmRunner mct = new MessageConfirmRunner(title, details, this);
 
         try {
@@ -1411,6 +1423,7 @@ public final class DocSearch extends JFrame implements ActionListener {
      * @see MessageRunner
      */
     public void showMessage(String title, String details) {
+    	System.out.println("showMessageDialog the param is:---->"+title+"--->"+details);
         MessageRunner mesThread = new MessageRunner(title, details, this);
         try {
             SwingUtilities.invokeLater(mesThread);
@@ -1428,6 +1441,7 @@ public final class DocSearch extends JFrame implements ActionListener {
      * @see MessageRunner
      */
     public void showMessageDialog(String title, String body) {
+    	System.out.println("showMessageDialog the param is:---->"+title+"--->"+body);
         if (!isLoading && env.isGUIMode()) {
             int messageType = JOptionPane.INFORMATION_MESSAGE;
             if (title.toLowerCase().indexOf(I18n.getString("lower_error")) != -1) {
@@ -1451,6 +1465,7 @@ public final class DocSearch extends JFrame implements ActionListener {
      */
     @SuppressWarnings("unused")
     private String getSearchedIndexes() {
+    	System.out.println("getSearchedIndexes the param is:---->");
         StringBuffer rb = new StringBuffer();
 
         // iterate over the di s
@@ -1499,6 +1514,7 @@ public final class DocSearch extends JFrame implements ActionListener {
      *         and List 1 constain the Float score value
      */
     private ArrayList[] getHitsForFilesizeRange(Hits hits, int minSize, int maxSize) {
+    	System.out.println("getHitsForFilesizeRange the param is:---->"+hits+"--->"+minSize+"--->"+maxSize);
         ArrayList[] returnList = new ArrayList[2];
         returnList[0] = new ArrayList();
         returnList[1] = new ArrayList();
@@ -1595,6 +1611,7 @@ public final class DocSearch extends JFrame implements ActionListener {
      * @param toSet
      */
     public void setSearching(boolean toSet) {
+    	System.out.println("setSearching the param is:---->"+toSet);
         currentlySearching = toSet;
     }
 
@@ -1604,10 +1621,25 @@ public final class DocSearch extends JFrame implements ActionListener {
      *
      * @param searchText  Search text
      */
-    public void doSearch(String searchText) {
+    public List<InitAdapterMeta> doSearch(String searchText, List<InitAdapterMeta> iaml) {
+    	
+//    	System.out.println("------------------------------------------------------");
+//		System.out.println("------------------------------------------------------");
+//		System.out.println("before--------->"+iaml.size());
+//		for(int i=0;i<iaml.size();i++){
+//			System.out.println(iaml.get(i).toString());
+//			iaml.get(i).toString();
+//		}
+//		System.out.println("------------------------------------------------------");
+//		System.out.println("------------------------------------------------------");
+    	
+    	
+    	iaml.clear();
         // TODO format date with locale
-
+    	// XXX dosearch
+    	System.out.println("doSearch the param is:---->"+searchText);
         setStatus(I18n.getString("please_wait...") + " " + I18n.getString("searching") + " --> " + searchText);
+        //到这一步ok
         setSearching(true);
         setIsWorking(true);
         int srchMaxPos = indexes.size() * 3;
@@ -1649,6 +1681,8 @@ public final class DocSearch extends JFrame implements ActionListener {
                 System.out.println(I18n.getString("results_for_search") + ": " + searchText);
             }
 
+            
+            System.out.println("Is index empty--->"+indexes.isEmpty());
             if (!indexes.isEmpty()) {
                 try {
                     int curSrchPos = 0;
@@ -1765,6 +1799,7 @@ public final class DocSearch extends JFrame implements ActionListener {
                                 pPanel.setCurPos(curSrchPos);
                             }
                             for (int i = 0; i < numHits; i++) {
+                            	InitAdapterMeta iam = new InitAdapterMeta();
                                 if (i > maxNumHitsShown) {
                                     setStatus(dsMxNumHits + " (" + maxNumHitsShown + ") " + I18n.getString("exceeded") + " (" + numHits + ").");
                                     break;
@@ -1779,30 +1814,38 @@ public final class DocSearch extends JFrame implements ActionListener {
                                 if (useSize.isSelected()) {
                                     currentDocument = (Document) sizeList[0].get(i);
                                     currentScore = ((Float) sizeList[1].get(i)).floatValue();
+                                    iam.setPercent(Utils.getPercentStringFromScore(currentScore)+"");
                                 }
                                 else {
                                     currentDocument = hits.doc(i);
                                     currentScore = hits.score(i);
+                                    iam.setPercent(Utils.getPercentStringFromScore(currentScore)+"");
                                 }
 
                                 // title
                                 String currentTitle = Utils.convertTextToHTML(currentDocument.get(Index.FIELD_TITLE));
+                                iam.setTitle(currentDocument.get(Index.FIELD_TITLE));
 
                                 // filesize
                                 String currentFilesize = currentDocument.get(Index.FIELD_SIZE);
+                                iam.setSize(Utils.getKStyle(currentFilesize));
 
                                 // path or url
                                 String currentFile;
                                 if (!currentIndex.getIsWeb()) {
                                     if (!isCdRomIdx) {
                                         currentFile = currentDocument.get(Index.FIELD_PATH);
+                                        iam.setPath(currentDocument.get(Index.FIELD_PATH));
                                     }
                                     else {
-                                        currentFile = getCDROMPath(currentDocument.get(Index.FIELD_URL));
+                                        //currentFile = getCDROMPath(currentDocument.get(Index.FIELD_URL));
+                                    	currentFile = currentDocument.get(Index.FIELD_PATH);
+                                    	iam.setPath(currentDocument.get(Index.FIELD_PATH));
                                     }
                                 }
                                 else {
                                     currentFile = currentDocument.get(Index.FIELD_URL);
+                                    iam.setPath(currentDocument.get(Index.FIELD_PATH));
                                 }
 
                                 // type
@@ -1811,12 +1854,14 @@ public final class DocSearch extends JFrame implements ActionListener {
 
                                 // author
                                 String currentAuthor = currentDocument.get(Index.FIELD_AUTHOR);
+                                iam.setAuthor(currentDocument.get(Index.FIELD_AUTHOR));
                                 if ("".equals(currentAuthor)) {
                                     currentAuthor = I18n.getString("unknown");
                                 }
 
                                 // date
                                 String currentDate = currentDocument.get(Index.FIELD_MODDATE);
+                                iam.setDate(DateTimeUtils.getDateParsedFromIndex(currentDate));
                                 if ("".equals(currentDate)) {
                                     currentDate = I18n.getString("unknown");
                                 }
@@ -1825,6 +1870,7 @@ public final class DocSearch extends JFrame implements ActionListener {
                                 }
 
                                 String currentSummary = Utils.convertTextToHTML(currentDocument.get(Index.FIELD_SUMMARY));
+                                iam.setContent(currentDocument.get(Index.FIELD_SUMMARY));
 
                                 // add it to our page - doc size title score
                                 tempBuf.append("<p align=\"left\">");
@@ -1900,8 +1946,10 @@ public final class DocSearch extends JFrame implements ActionListener {
                                 else {
                                     System.out.println("\n\n* " + currentTitle + "\n" + currentSummary + "\n" + currentDate + ", " + Utils.getKStyle(currentFilesize) + "bytes, " + currentAuthor + ", " + Utils.getPercentStringFromScore(currentScore) + "\n" + currentFile);
                                 }
+                                iaml.add(iam);
                             } // end for hits
                               // now add our results
+                            
                             curSrchPos++;
                             if (curSrchPos > 0) {
                                 pPanel.setCurPos(curSrchPos);
@@ -1923,6 +1971,7 @@ public final class DocSearch extends JFrame implements ActionListener {
                             bodyBuf.append(tempBuf);
                         }
                     } // end while hasmore indexes
+                    
 
                     // finish up the page
                     hitBuf.append("<p align=\"left\"><strong>");
@@ -2000,6 +2049,16 @@ public final class DocSearch extends JFrame implements ActionListener {
         setSearching(false);
         setIsWorking(false);
         pPanel.reset();
+//      System.out.println("------------------------------------------------------");
+//		System.out.println("------------------------------------------------------");
+//		System.out.println("after--------->"+iaml.size());
+//		for(int i=0;i<iaml.size();i++){
+//			System.out.println(iaml.get(i).toString());
+//			iaml.get(i).toString();
+//		}
+//		System.out.println("------------------------------------------------------");
+//		System.out.println("------------------------------------------------------");
+        return iaml;
     }
 
 
@@ -2011,6 +2070,7 @@ public final class DocSearch extends JFrame implements ActionListener {
      * @return Properties
      */
     private Properties loadProperties(String propertiesFile) {
+    	System.out.println("loadProperties the param is:---->"+propertiesFile);
         logger.debug("loadProperties('" + propertiesFile + "') entered");
 
         // cursor "wait"
@@ -2052,6 +2112,7 @@ public final class DocSearch extends JFrame implements ActionListener {
      * @return True, if page is successfully set.
      */
     private boolean setPage(final String pageToSet) {
+    	System.out.println("setPage the param is:---->"+pageToSet);
         logger.debug("setPage('" + pageToSet + "') entered");
 
         boolean returnBool = true;
@@ -2168,6 +2229,7 @@ public final class DocSearch extends JFrame implements ActionListener {
 
 
     private void doOpen() {
+    	System.out.println("doOpen the param is:---->");
         JFileChooser fdo = new JFileChooser();
         fdo.setCurrentDirectory(new File(defaultSaveFolder));
         int fileGotten = fdo.showDialog(this, I18n.getString("button.open"));
@@ -2187,6 +2249,7 @@ public final class DocSearch extends JFrame implements ActionListener {
 
 
     private void doSave() {
+    	System.out.println("doSave the param is:---->");
         setStatus(I18n.getString("tooltip.save"));
 
         // defaultSaveFolder
@@ -2231,6 +2294,7 @@ public final class DocSearch extends JFrame implements ActionListener {
 
 
     private void doPrint() {
+    	System.out.println("doPrint the param is:---->");
         PrinterJob pj = PrinterJob.getPrinterJob();
         pj.setJobName("docSearcher");
         pj.setPageable(vista);
@@ -2247,6 +2311,7 @@ public final class DocSearch extends JFrame implements ActionListener {
 
 
     private void doExit() {
+    	System.out.println("doExit the param is:---->");
         try {
             if (!isCDSearchTool) {
                 saveIndexes();
@@ -2264,6 +2329,7 @@ public final class DocSearch extends JFrame implements ActionListener {
 
 
     private void saveIndexes() {
+    	System.out.println("saveIndexes the param is:---->");
         if (!indexes.isEmpty()) {
             // int numIndexes = indexes.size();
             StringBuffer sB = new StringBuffer();
@@ -2366,6 +2432,7 @@ public final class DocSearch extends JFrame implements ActionListener {
      * Loads the DocSearcher indexes
      */
     private void loadIndexes() {
+    	System.out.println("loadIndexes the param is:---->");
         // check for indexFile
         int numIndexes = 0;
         String indexFileName;
@@ -2513,6 +2580,9 @@ public final class DocSearch extends JFrame implements ActionListener {
      * ensures default properties files are present for user settings
      */
     private void checkDefaults() {
+    	
+    	System.out.println("checkDefaults the param is:---->");
+    	
         // working directory
         File workingDirFile = new File(fEnv.getWorkingDirectory());
         if (!workingDirFile.exists()) {
@@ -2553,7 +2623,9 @@ public final class DocSearch extends JFrame implements ActionListener {
      * @throws IOException
      *             IO problem
      */
+    // XXX createNewIndex
     private void createNewIndex(DocSearcherIndex di, boolean isCdRomIndx) throws IOException {
+    	System.out.println("createNewIndex the param is:---->"+di+"--->"+isCdRomIndx);
         setStatus(I18n.getString("indexing") + " (" + di.getIndexPath() + ") ");
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         checkDefaults();
@@ -2738,6 +2810,7 @@ public final class DocSearch extends JFrame implements ActionListener {
      * creates a new index
      */
     private void doNewIndex() {
+    	System.out.println("doNewIndex the param is:---->");
         NewIndexDialog nid = new NewIndexDialog(this, I18n.getString("windowtitle.new_index"), true);
         nid.init();
         nid.setVisible(true);
@@ -2765,6 +2838,7 @@ public final class DocSearch extends JFrame implements ActionListener {
 
 
     private void addNewBookmark(SimpleBookmark sbm) {
+    	System.out.println("addNewBookmark the param is:---->"+sbm);
         bookmarksList.add(sbm);
         JMenuItem bmi = new JMenuItem(sbm.getDescription());
         bmi.setActionCommand(sbm.getURL());
@@ -2774,6 +2848,7 @@ public final class DocSearch extends JFrame implements ActionListener {
 
 
     private void rebuildIndexes() {
+    	System.out.println("rebuildIndexes the param is:---->");
         if (!indexes.isEmpty()) {
             for (DocSearcherIndex di : indexes) {
                 idx.updateIndex(di);
@@ -2791,6 +2866,7 @@ public final class DocSearch extends JFrame implements ActionListener {
      * @return browser file string
      */
     private String getBrowserFile() {
+    	System.out.println("getBrowserFile the param is:---->");
         File testExist;
         String returnString = "";
 
@@ -2863,6 +2939,7 @@ public final class DocSearch extends JFrame implements ActionListener {
      * @param externalLink Document to open
      */
     public void doExternal(String externalLink) {
+    	System.out.println("doExternal the param is:---->"+externalLink);
         logger.debug("doExternal('" + externalLink + "') entered");
 
         String lowerL = externalLink.toLowerCase();
@@ -2929,6 +3006,7 @@ public final class DocSearch extends JFrame implements ActionListener {
 
 
     private void doBookmark() {
+    	System.out.println("doBookmark the param is:---->");
         if ((curPage.equals("home")) || (curPage.equals("results"))) {
             showMessage(I18n.getString("not_bookmarkable"), I18n.getString("save_results_please"));
         }
@@ -2953,6 +3031,7 @@ public final class DocSearch extends JFrame implements ActionListener {
 
 
     private void doManageIndexes() {
+    	System.out.println("doManageIndexes the param is:---->");
         if (!indexes.isEmpty()) {
             int numIndexes = indexes.size();
             ManageIndexesDialog min = new ManageIndexesDialog(this, I18n.getString("windowtitle.index_properties"), true);
@@ -2999,6 +3078,7 @@ public final class DocSearch extends JFrame implements ActionListener {
 
 
     private void deleteRecursive(String folderToDelete) {
+    	System.out.println("deleteRecursive the param is:---->"+folderToDelete);
         int curFoldNum = 0;
         File curFolderFile;
         String curFold = "";
@@ -3118,6 +3198,9 @@ public final class DocSearch extends JFrame implements ActionListener {
 
 
     protected void doZipArchiveUpdate(DocSearcherIndex di) {
+    	
+    	System.out.println("doZipArchiveUpdate the param is:---->"+di);
+    	
         // try and obtain meta data from the file
         // based on this new meta data see if we can obtain new index
         // fourth column
@@ -3212,6 +3295,9 @@ public final class DocSearch extends JFrame implements ActionListener {
 
 
     private void doExport(DocSearcherIndex di) {
+    	
+    	System.out.println("doExport the param is:---->"+di);
+    	
         // zip contents and place in archive Dir
         String archiveZipFileName = Utils.replaceAll(" ", di.getName(), "_");
         if (!archiveZipFileName.toLowerCase().endsWith(".zip")) {
@@ -3251,6 +3337,9 @@ public final class DocSearch extends JFrame implements ActionListener {
 
 
     private void updateArchiveTable(String name, String lastIndexed, String zipFileName, String archDir, String content) {
+    	
+    	System.out.println("updateArchiveTable the param is:---->"+name+"--->"+lastIndexed+"--->"+zipFileName+"--->"+archDir+"--->"+content);
+    	
         boolean hasErr = false;
         String errMsg = "";
         try {
@@ -3321,6 +3410,8 @@ public final class DocSearch extends JFrame implements ActionListener {
 
 
     private boolean downloadURLToFile(String urlString, String fileToSaveAs) {
+    	System.out.println("downloadURLToFile the param is:---->"+urlString+" to "+fileToSaveAs);
+        
         int numBytes = 0;
         int curI = 0;
         FileOutputStream dos = null;
@@ -3373,6 +3464,7 @@ public final class DocSearch extends JFrame implements ActionListener {
 
     private void doImport(String zipFileString, String description, String dateIndexed, boolean searchedByDefault, boolean isWeb, int indexPolicy) {
         // may be just a URL
+    	System.out.println("doImport the param is:---->"+zipFileString+"--->"+description+"--->"+dateIndexed+"--->"+searchedByDefault+"--->"+isWeb+"--->"+indexPolicy);
         boolean successFulDownload = true;
         if (dateIndexed.equals("")) {
             dateIndexed = DateTimeUtils.getToday();
@@ -3431,6 +3523,7 @@ public final class DocSearch extends JFrame implements ActionListener {
 
 
     private void getImportInfo() {
+    	System.out.println("getImportInfo the param is:---->");
         ImportDialog id = new ImportDialog(this, I18n.getString("import_ds_index"), true);
         id.init();
         id.setVisible(true);
@@ -3537,6 +3630,7 @@ public final class DocSearch extends JFrame implements ActionListener {
      */
     private void doCommand(String commandString, String indexString) {
         System.out.println("command: " + commandString + " index: " + (indexString == null ? "-" : indexString));
+        System.out.println("doCommand the param is:---->"+commandString + " to " + indexString);
 
         boolean doSndMail = sendNoticeOnIdxingChanges();
         boolean isTxtFormt = isTextEmailFormat();
@@ -3578,7 +3672,8 @@ public final class DocSearch extends JFrame implements ActionListener {
                             idx.setEmailText(isTextEmailFormat());
                             idx.updateIndex(di);
                             if (sendAMess && idx.getTotalChanges() > 0) {
-                                sendEmail(di.getName() + " " + dsUpdts, idx.getUpDateNotes());
+                                //sendEmail(di.getName() + " " + dsUpdts, idx.getUpDateNotes());
+                            	System.out.println("move out sendEmail the param is:---->"+di.getName() + " " + dsUpdts+ idx.getUpDateNotes());
                             }
 
                             break;
@@ -3640,7 +3735,8 @@ public final class DocSearch extends JFrame implements ActionListener {
                             foundMatch = true;
 
                             di.setShouldBeSearched(true);
-                            doSearch(searchT);
+                            List<InitAdapterMeta> iaml = new ArrayList<>();
+                            doSearch(searchT,iaml);
 
                             break;
                         }
@@ -3685,6 +3781,7 @@ public final class DocSearch extends JFrame implements ActionListener {
 
 
     private void getSeachLogReport() {
+    	System.out.println("getSeachLogReport the param is:---->");
         JFileChooser fdo = new JFileChooser();
         fdo.setCurrentDirectory(new File(fEnv.getWorkingDirectory()));
         int fileGotten = fdo.showDialog(this, I18n.getString("select"));
@@ -3702,6 +3799,7 @@ public final class DocSearch extends JFrame implements ActionListener {
 
 
     private void doMetaReport() {
+    	System.out.println("doMetaReport the param is:---->");
         MetaReport mr = new MetaReport();
         mr.getMetaReport(this);
     }
@@ -3715,6 +3813,9 @@ public final class DocSearch extends JFrame implements ActionListener {
 
         @Override
 		public void hyperlinkUpdate(HyperlinkEvent event) {
+        	
+        	System.out.println("hyperlinkUpdate the param is:---->");
+        	
             if (logger.isDebugEnabled()) {
                 logger.debug("hyperlinkUpdate() HyperlinkEvent=" + event.getClass() +
                 		" EventType=" + event.getEventType());
@@ -3774,6 +3875,9 @@ public final class DocSearch extends JFrame implements ActionListener {
 
 
     private void doHandlers() {
+    	
+    	System.out.println("doHandlers the param is:---->");
+    	
         DsProperties hd = new DsProperties(this, I18n.getString("windowtitle.settings"), true);
         hd.init();
         hd.setVisible(true);
@@ -3900,6 +4004,9 @@ public final class DocSearch extends JFrame implements ActionListener {
      * @param destinationFolder
      */
     private void copyFiles(String sourceFolder, String destinationFolder) {
+    	
+    	System.out.println("copyFile(Folder) the param is:---->"+sourceFolder+" to "+sourceFolder);
+    	
         if (logger.isDebugEnabled()) {
             logger.debug("copyFiles('" + sourceFolder + "', '" + destinationFolder + "') entered");
         }
@@ -3950,6 +4057,10 @@ public final class DocSearch extends JFrame implements ActionListener {
      * @param newFileName
      */
     private void copyFile(String originalFileName, String newFileName) {
+    	
+    	System.out.println("copyFile the param is:---->"+originalFileName+" to "+newFileName);
+    	
+    	
         if (logger.isDebugEnabled()) {
             logger.debug("copyFile('" + originalFileName + "', '" + newFileName + "') entered");
         }
@@ -3968,7 +4079,7 @@ public final class DocSearch extends JFrame implements ActionListener {
     /**
      * Method checks CDROM directory
      */
-    private void checkCDROMDir() {
+/*    private void checkCDROMDir() {
         String changeStr = "";
         boolean changeCD = false;
         String startDir = fEnv.getStartDirectory();
@@ -4006,7 +4117,7 @@ public final class DocSearch extends JFrame implements ActionListener {
             env.setCDROMDir(changeStr);
             logger.info("checkCDROMDir() new CDROM dir is: " + changeStr);
         }
-    }
+    }*/
 
 
     /**
@@ -4015,7 +4126,7 @@ public final class DocSearch extends JFrame implements ActionListener {
      * @param pathToChange
      * @return
      */
-    private String getCDROMPath(String pathToChange) {
+/*    private String getCDROMPath(String pathToChange) {
         // System.out.println("ORIG PATH: "+pathToChange);
         String ptc = pathToChange.substring(7, pathToChange.length());
         if ((ptc.startsWith("/")) || (ptc.startsWith("\\"))) {
@@ -4029,16 +4140,16 @@ public final class DocSearch extends JFrame implements ActionListener {
         else {
             return tmpGetCDROMDr + ptc;
         }
-    }
+    }*/
 
 
-    private boolean isThisOnACd(String cdRomIdxList) {
+/*    private boolean isThisOnACd(String cdRomIdxList) {
         //
         // looks for startDir/cdrom_indexes
         //
         File testCDFi = new File(cdRomIdxList);
         return testCDFi.exists();
-    }
+    }*/
 
 
     /**
@@ -4249,6 +4360,7 @@ public final class DocSearch extends JFrame implements ActionListener {
      * Save Settings
      */
     private void saveSettings() {
+    	
         logger.info("saveSettings() entered");
 
         // saves all preferences
@@ -4303,6 +4415,7 @@ public final class DocSearch extends JFrame implements ActionListener {
 
 
     private void resetTempDir(String toSet) {
+    	System.out.println("resetTempDir the param is:---->"+toSet);
         tempDir = toSet;
         rtfTextFile = FileUtils.addFolder(tempDir, "temp_rtf_file_" + USER_NAME + ".txt");
         ooTextFile = FileUtils.addFolder(tempDir, "temp_oo_file_" + USER_NAME + ".xml");
@@ -4312,6 +4425,8 @@ public final class DocSearch extends JFrame implements ActionListener {
 
 
     private void resetWorkingDir(String toSet) {
+    	System.out.println("resetWorkingDir the param is:---->"+toSet);
+    	
         String workingDir = toSet;
 
         fEnv.setWorkingDirectory(workingDir);
@@ -4325,7 +4440,7 @@ public final class DocSearch extends JFrame implements ActionListener {
     }
 
 
-    @SuppressWarnings("unused")
+/*    @SuppressWarnings("unused")
     private void sendEmail(StringBuffer message) {
         String compName = null;
         try {
@@ -4352,17 +4467,17 @@ public final class DocSearch extends JFrame implements ActionListener {
             logger.fatal("sendEmail() failed", me);
             setStatus(ERROR + " " + me.toString());
         }
-    }
+    }*/
 
 
-    private Properties getEmailProps() {
+/*    private Properties getEmailProps() {
         //
         Properties retP = System.getProperties();
         retP.put("mail.smtp.host", gateway);
         retP.put("password", gatewayPwd);
         retP.put("username", gatewayUser);
         return retP;
-    }
+    }*/
 
 
     public void addEmail(String toAdd) {
@@ -4415,7 +4530,7 @@ public final class DocSearch extends JFrame implements ActionListener {
     }
 
 
-    private void sendEmail(String subj, StringBuffer message) {
+/*    private void sendEmail(String subj, StringBuffer message) {
         int numEs = adminEmails.size();
         String[] addrs = new String[numEs];
         for (int i = 0; i < numEs; i++) {
@@ -4433,7 +4548,7 @@ public final class DocSearch extends JFrame implements ActionListener {
             logger.fatal("sendEmail() failed", me);
             setStatus(ERROR + " " + me.toString());
         }
-    }
+    }*/
 
 
     public ArrayList<DocSearcherIndex> getCdArrayList() {
@@ -4451,7 +4566,7 @@ public final class DocSearch extends JFrame implements ActionListener {
     }
 
 
-    private void doSearchableCdWiz() {
+    /*private void doSearchableCdWiz() {
         String CREATE_IDX_FIRST = I18n.getString("create_index_first");
         String CREATE_CD_STEPS = I18n.getString("create_index_info");
 
@@ -4489,11 +4604,11 @@ public final class DocSearch extends JFrame implements ActionListener {
                 }
             } // end for we have CDROM indexes to work with
         } // end for we at least have some indexes
-    }
+    }*/
 
 
     // TODO currently unused, check for remove
-    @SuppressWarnings("unused")
+/*    @SuppressWarnings("unused")
     private String getCdsList(ArrayList<DocSearcherIndex> idxs) {
         StringBuffer rb = new StringBuffer();
         if (idxs.size() > 0) {
@@ -4505,7 +4620,7 @@ public final class DocSearch extends JFrame implements ActionListener {
             }
         }
         return rb.toString();
-    }
+    }*/
 
 
     /**
@@ -4517,7 +4632,7 @@ public final class DocSearch extends JFrame implements ActionListener {
      * @param copyAllFiles
      * @param indexesToSelectFrom
      */
-    private void createCDStuff(String cdRootDirName, String splashImageFileName, String startPageFileName, String helpPageFileName, boolean copyAllFiles, ArrayList<DocSearcherIndex> indexesToSelectFrom) {
+    /*private void createCDStuff(String cdRootDirName, String splashImageFileName, String startPageFileName, String helpPageFileName, boolean copyAllFiles, ArrayList<DocSearcherIndex> indexesToSelectFrom) {
         if (logger.isInfoEnabled()) {
             logger.info("createCDStuff('" + cdRootDirName + "', '" + splashImageFileName + "', '" + startPageFileName + "', '" + helpPageFileName + "', '" + copyAllFiles + "', '" + indexesToSelectFrom + "') entered");
         }
@@ -4752,7 +4867,7 @@ public final class DocSearch extends JFrame implements ActionListener {
             // TODO check resource really not exist
             showMessage(Messages.getString("DocSearch.errCrtgCDStuff"), errBuf.toString());
         }
-    }
+    }*/
 
 
     private boolean isSearching() {
@@ -4763,6 +4878,7 @@ public final class DocSearch extends JFrame implements ActionListener {
     /**
      * Start search
      */
+    //XXX doThreadedSearch
     private void doThreadedSearch() {
         logger.debug("doThreadedSearch() entered");
 
@@ -4770,6 +4886,7 @@ public final class DocSearch extends JFrame implements ActionListener {
 
             // search text
             String searchText = searchField.getSelectedItem().toString().trim();
+            System.out.println("searchText--->"+searchText);
 
             if (logger.isDebugEnabled()) {
                 int selectedFields = searchIn.getSelectedIndex();
@@ -4787,6 +4904,36 @@ public final class DocSearch extends JFrame implements ActionListener {
                 SwingUtilities.invokeLater(ts);
             }
         }
+    }
+    
+    
+    private List<InitAdapterMeta> doThreadedSearch2(String searchText) {
+        logger.debug("doThreadedSearch() entered");
+            System.out.println("searchText--->"+searchText);
+
+            List<InitAdapterMeta> iaml = new ArrayList<InitAdapterMeta>();
+            // start search
+            if (!searchText.equals("")) {
+                setStatus(I18n.getString("please_wait...") + " " + I18n.getString("searching"));
+
+                
+                // start search
+                //ThreadedSearch ts = new ThreadedSearch(this, searchText,iaml);
+                iaml = this.doSearch(searchText,iaml);
+                //SwingUtilities.invokeLater(ts);
+            }
+            
+//          System.out.println("------------------------------------------------------");
+//    		System.out.println("------------------------------------------------------");
+//    		System.out.println("doThreadedSearch2--------->"+iaml);
+//    		for(int i=0;i<iaml.size();i++){
+//    			System.out.println(iaml.get(i).toString());
+//    			iaml.get(i).toString();
+//    		}
+//    		System.out.println("------------------------------------------------------");
+//    		System.out.println("------------------------------------------------------");
+    		
+            return iaml;
     }
 
 
@@ -4950,4 +5097,53 @@ public final class DocSearch extends JFrame implements ActionListener {
         // + localityType + ".properties");
         // }
     }
+    
+    
+    
+    
+    
+    
+    
+    //请求处理函数
+    //查找文件过程，index目录是设定死的
+    //创建index-----和upload是同一级目录
+    //更新index-----每次发现有文件上传时候
+    //区分好index目录和文件目录的关系，index目录是存放索引信息的，文件目录是实实在在文件的目录，设置索引深度为4即可
+    //do search 传入字符串格式，返回一个list对象，对象包含本文件的所有信息
+    
+    //XXX createIndex
+    public boolean createIndex(String iname, String path, String indexPath, String archiveDir, int depth) throws Exception{
+//    	String iname = "upload";
+//    	String path = "D:\\upload";
+//    	String indexPath = "D:\\project\\docsearch\\.docSearcher\\indexes\\upload";
+//    	String archiveDir = "D:\\project\\docsearch\\.docSearcher\\archives";
+//    	int depth = 4;
+    	DocSearcherIndex di = new DocSearcherIndex(path, iname, true, depth, indexPath, false, "na", "na", 0, archiveDir);
+    	createNewIndex(di, false);
+    	return true;
+    }
+    
+    public boolean removeIndex(String indexPath){
+//    	String indexPath = "D:\\project\\docsearch\\.docSearcher\\indexes\\upload";
+    	deleteRecursive(indexPath);
+    	return true;
+    }
+    
+    public List<InitAdapterMeta> doSearching(String searchtext,String iname, String path, String indexPath, String archiveDir, int depth){
+//    	String iname = "upload";
+//    	String path = "D:\\upload";
+//    	String indexPath = "D:\\project\\docsearch\\.docSearcher\\indexes\\upload";
+//    	String archiveDir = "D:\\project\\docsearch\\.docSearcher\\archives";
+//    	int depth = 4;
+    	DocSearcherIndex di = new DocSearcherIndex(path, iname, true, depth, indexPath, false, "na", "na", 0, archiveDir);
+    	
+    	indexes.clear();
+    	indexes.add(di);
+    	
+    	return doThreadedSearch2(searchtext);
+    	//doThreadedSearch();
+    	//return new ArrayList<Object>();
+    }
+    
+    
 }
